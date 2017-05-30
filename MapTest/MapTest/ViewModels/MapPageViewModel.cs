@@ -1,16 +1,17 @@
 ﻿using Esri.ArcGISRuntime.Mapping;
-using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
+/// <summary>
+/// 
+/// </summary>
 namespace MapTest.ViewModels
 {
+  /// <summary>
+  /// 
+  /// </summary>
   public class MapPageViewModel : BindableBase
   {
 
@@ -27,11 +28,19 @@ namespace MapTest.ViewModels
 
     private IPageDialogService dialogService;
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
     public IPageDialogService GetDialogService()
     {
       return dialogService;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="value"></param>
     public void SetDialogService(IPageDialogService value)
     {
       dialogService = value;
@@ -42,26 +51,34 @@ namespace MapTest.ViewModels
     /// </summary>
     public MapPageViewModel(IPageDialogService dialogService)
     {
-      this.Map = new Map();
-      this.SetDialogService(dialogService);
+      Map = new Map();
+      SetDialogService(dialogService);
       AddLayers();
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     private void AddLayers()
     {
       try
       {
-        this.Map.Basemap = Basemap.CreateTopographic();
-        AgregarCapa("http://sampleserver5.arcgisonline.com/arcgis/rest/services/Elevation/WorldElevations/MapServer", "dynamic");
-        MostrarMensaje("MapTest", "Finish");
+        Map.Basemap = Basemap.CreateTopographic();
+        AddLayer("http://sampleserver5.arcgisonline.com/arcgis/rest/services/Elevation/WorldElevations/MapServer", "dynamic");
+        ShowAlert("MapTest", "Finish");
       }
       catch (Exception ex)
       {
-        MostrarMensaje("Exception", ex.Message);
+        ShowAlert("Exception", ex.Message);
       }
     }
 
-    private void AgregarCapa(string url, string tipo)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="url"></param>
+    /// <param name="tipo"></param>
+    private void AddLayer(string url, string tipo)
     {
       Layer layer = null;
       if (tipo == "tiled")
@@ -76,7 +93,7 @@ namespace MapTest.ViewModels
       try
       {
         this.Map.OperationalLayers.Add(layer);
-        MostrarMensaje("MapTest", "layer Added.");
+        ShowAlert("MapTest", "layer Added.");
       }
       catch (Exception ex)
       {
@@ -87,16 +104,16 @@ namespace MapTest.ViewModels
     /// <summary>
     /// /
     /// </summary>
-    /// <param name="titulo"></param>
-    /// <param name="mensaje"></param>
-    private void MostrarMensaje(string titulo, string mensaje)
+    /// <param name="title"></param>
+    /// <param name="message"></param>
+    private void ShowAlert(string title, string message)
     {
-      System.Diagnostics.Debug.WriteLine(mensaje);
+      System.Diagnostics.Debug.WriteLine(message);
       Device.BeginInvokeOnMainThread(async () =>
       {
         var result = await this.GetDialogService().DisplayAlertAsync(
-          titulo,
-          mensaje,
+          title,
+          message,
           "Aceptar",
           "Cancelar");
       });

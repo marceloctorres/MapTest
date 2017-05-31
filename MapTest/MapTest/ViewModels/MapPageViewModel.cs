@@ -111,14 +111,11 @@ namespace MapTest.ViewModels
       System.Diagnostics.Debug.WriteLine(message);
       Device.BeginInvokeOnMainThread(async () =>
       {
-        var result = await this.GetDialogService().DisplayAlertAsync(
+          await this.GetDialogService().DisplayAlertAsync(
           title,
           message,
-          "Aceptar",
-          "Cancelar");
+          "Close");
       });
     }
-
-
   }
 }

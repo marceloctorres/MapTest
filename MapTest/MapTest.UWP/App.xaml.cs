@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Esri.ArcGISRuntime.Xamarin.Forms;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -58,7 +60,7 @@ namespace MapTest.UWP
 
         rootFrame.NavigationFailed += OnNavigationFailed;
 
-        Xamarin.Forms.Forms.Init(e);
+        Xamarin.Forms.Forms.Init(e, new Assembly[] { typeof(MapView).GetTypeInfo().Assembly });
 
         if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
         {
